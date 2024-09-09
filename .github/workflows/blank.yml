@@ -5,7 +5,6 @@ on:
 jobs:
     template_check:
       runs-on: ubuntu-latest
-      if: ${{ contains(github.ref, 'refs/heads/main') && github.event.created == true && contains(github.event.repository.description, 'corebanking') }}
       steps:
       - name: Dump GitHub conditions
         env:
@@ -28,19 +27,8 @@ jobs:
         env:
           STEPS_CONTEXT: ${{ toJson(steps) }}
         run: echo "$STEPS_CONTEXT"
-      - name: Dump runner context
-        env:
-          RUNNER_CONTEXT: ${{ toJson(runner) }}
-        run: echo "$RUNNER_CONTEXT"
-      - name: Dump strategy context
-        env:
-          STRATEGY_CONTEXT: ${{ toJson(strategy) }}
-        run: echo "$STRATEGY_CONTEXT"
-      - name: Dump matrix context
-        env:
-          MATRIX_CONTEXT: ${{ toJson(matrix) }}
-        run: echo "$MATRIX_CONTEXT"
       - name: Write file
+        if: ${{ contains(github.ref, 'refs/heads/main') && github.event.created == true && contains(github.event.repository.description, 'corebanking') }}
         env:
           FILIERA: ${{ github.event.description }}
         run: echo "$FILIERA" > test.txt
