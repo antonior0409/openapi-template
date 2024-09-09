@@ -6,6 +6,8 @@ jobs:
     template_check:
       runs-on: ubuntu-latest
       steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3    
       - name: Dump GitHub conditions
         env:
           CONDITION1: ${{ contains(github.ref, 'refs/heads/main') }}
@@ -31,18 +33,16 @@ jobs:
         if: ${{ contains(github.ref, 'refs/heads/main') && github.event.created == true && contains(github.event.repository.description, 'corebanking') }}
         env:
           FILIERA: ${{ github.event.description }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run:
+        run: 
           echo "$FILIERA" > test.txt
-      - name: Push file
-        if: ${{ contains(github.ref, 'refs/heads/main') && github.event.created == true && contains(github.event.repository.description, 'corebanking') }}
-        env:
-          FILIERA: ${{ github.event.description }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |          
-          git config --global user.email "antonior0409@gmail.com"
+      - name: Commit changes
+        if: ${{ contains(github.ref, 'refs/heads/main') && github.event.created == true && contains(github.event.repository.description, 'corebanking') }}      
+        run: |
+          git config --global user.email "no-reply@github.com"
           git config --global user.name "GitHub Actions"
-          git add test.txt
+          git add text.txt
           git commit -m "Add test.txt"
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
-          git push          
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}      
