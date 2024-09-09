@@ -4,9 +4,17 @@ on:
     branches: [ "main" ]
 jobs:
     template_check:
-      if: ${{ contains(github.ref, 'refs/heads/main') && github.event.created == true && contains(github.event.description, 'corebanking') }}      
       runs-on: ubuntu-latest
       steps:
+      - name: Dump GitHub conditions
+        env:
+          CONDITION1: ${{ contains(github.ref, 'refs/heads/main') }}
+          CONDITION2: ${{ github.event.created == true }}
+          CONDITION3: ${{ contains(github.event.description, 'corebanking')}}
+        run:
+          echo "$CONDITION1"
+          echo "$CONDITION2"
+          echo "$CONDITION3"
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
