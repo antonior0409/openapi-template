@@ -1,9 +1,7 @@
 name: Creazione API Spec repository da Template
 
 on:
-  push:
-    branches:
-      - '**'
+  create
 
 jobs:
     template_check:
