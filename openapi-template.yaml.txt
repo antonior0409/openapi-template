@@ -1,1 +1,0 @@
--extends: ['http://localhost/$filiera/$ruleset']
