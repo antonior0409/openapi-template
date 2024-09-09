@@ -31,4 +31,12 @@ jobs:
         if: ${{ contains(github.ref, 'refs/heads/main') && github.event.created == true && contains(github.event.repository.description, 'corebanking') }}
         env:
           FILIERA: ${{ github.event.description }}
-        run: echo "$FILIERA" > test.txt
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run:
+          echo "$FILIERA" > test.txt
+          git config --global user.email "antonior0409@gmail.com"
+          git config --global user.name "GitHub Actions"
+          git add test.txt
+          git commit -m "Add test.txt"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git push
