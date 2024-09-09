@@ -5,6 +5,7 @@ on:
 jobs:
     template_check:
       runs-on: ubuntu-latest
+      if: ${{ contains(github.ref, 'refs/heads/main') && github.event.created == true && contains(github.event.repository.description, 'corebanking') }}
       steps:
       - name: Dump GitHub conditions
         env:
@@ -43,4 +44,3 @@ jobs:
         env:
           FILIERA: ${{ github.event.description }}
         run: echo "$FILIERA" > test.txt
-  
