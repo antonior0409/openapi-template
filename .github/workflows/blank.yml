@@ -1,8 +1,7 @@
 name: Creazione API Spec repository da Template
-on: create
-  # push:
-  #   branches: [ "main" ]
-
+on:
+  push:
+    branches: [ "main" ]
 jobs:
     template_check:
       if: ${{ contains(github.ref, 'refs/heads/main') && github.event.created == true && contains(github.event.description, 'corebanking') }}      
