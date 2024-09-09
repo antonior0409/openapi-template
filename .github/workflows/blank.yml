@@ -10,7 +10,7 @@ jobs:
         env:
           CONDITION1: ${{ contains(github.ref, 'refs/heads/main') }}
           CONDITION2: ${{ github.event.created == true }}
-          CONDITION3: ${{ contains(github.event.description, 'corebanking')}}
+          CONDITION3: ${{ contains(github.event.repository.description, 'corebanking')}}
         run:
           echo "$CONDITION1"
           echo "$CONDITION2"
