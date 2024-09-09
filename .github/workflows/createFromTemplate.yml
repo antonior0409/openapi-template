@@ -7,28 +7,11 @@ jobs:
       runs-on: ubuntu-latest
       steps:
       - name: Checkout repository
-        uses: actions/checkout@v3    
-      - name: Dump GitHub conditions
-        env:
-          CONDITION1: ${{ contains(github.ref, 'refs/heads/main') }}
-          CONDITION2: ${{ github.event.created == true }}
-          CONDITION3: ${{ contains(github.event.repository.description, 'corebanking')}}
-        run:
-          echo "$CONDITION1"
-          echo "$CONDITION2"
-          echo "$CONDITION3"
+        uses: actions/checkout@v3
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
-      - name: Dump job context
-        env:
-          JOB_CONTEXT: ${{ toJson(job) }}
-        run: echo "$JOB_CONTEXT"
-      - name: Dump steps context
-        env:
-          STEPS_CONTEXT: ${{ toJson(steps) }}
-        run: echo "$STEPS_CONTEXT"
       - name: Write file
         if: ${{ contains(github.ref, 'refs/heads/main') && github.event.created == true && contains(github.event.repository.description, 'corebanking') }}
         env:
@@ -38,11 +21,13 @@ jobs:
       - name: Commit changes
         if: ${{ contains(github.ref, 'refs/heads/main') && github.event.created == true && contains(github.event.repository.description, 'corebanking') }}      
         run: |
-          git config --global user.email "no-reply@github.com"
-          git config --global user.name "GitHub Actions"
+          git config --global user.email "$EMAIL"
+          git config --global user.name "$AUTHOR"
           git add test.txt
           git commit -m "Add test.txt"
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
           git push
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}      
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          AUTHOR:  ${{ github.event.commits[0].author.name }}
+          EMAIL:  ${{ github.event.commits[0].author.email }}
