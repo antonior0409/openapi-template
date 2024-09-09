@@ -22,12 +22,12 @@ jobs:
         if: ${{ contains(github.ref, 'refs/heads/main') && github.event.created == true && contains(github.event.repository.description, 'corebanking') }}      
         run: |
           git config --global user.email "$EMAIL"
-          git config --global user.name "$AUTHOR"
+          git config --global user.name "$OWNER"
           git add test.txt
           git commit -m "Add test.txt"
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          AUTHOR:  ${{ github.event.commits[0].author.name }}
-          EMAIL:  ${{ github.event.commits[0].author.email }}
+          OWNER:  ${{ github.event.repository.owner.login }}
+          EMAIL:  ${{ github.event.repository.owner.email }}
