@@ -5,6 +5,7 @@ on:
 jobs:
     template_check:
       runs-on: ubuntu-latest
+      if: ${{ contains(github.ref, 'refs/heads/main') && github.event.created == true && contains(github.event.repository.description, 'corebanking') }}
       steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -13,7 +14,6 @@ jobs:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
       - name: Write file
-        if: ${{ contains(github.ref, 'refs/heads/main') && github.event.created == true && contains(github.event.repository.description, 'corebanking') }}
         env:
           FILIERA: ${{ github.event.description }}
         run: 
