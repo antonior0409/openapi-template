@@ -1,4 +1,4 @@
-name: Creazione API Spec repository da Template
+name: Create Repository from Template
 
 on:
   workflow_dispatch:
