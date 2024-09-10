@@ -25,11 +25,13 @@ jobs:
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
-      - name: Create repository from template
-        shell: bash      
-        run: |
-          gh repo create "antonior0409/test-template5" --template https://github.com/antonior0409/openapi-template --public  --clone        
-          echo "gh repo create $ORG/$REPO --template https://github.com/antonior0409/openapi-template --public --clone"
+      - name: 'Checkout: local'
+        uses: actions/checkout@v3
+      - name: 'Checkout: Template Repo'
+        uses: actions/checkout@v3
+        with:
+          repository: antonior0409/openapi-template
+          path: 'templates1'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ORG: ${{ github.event.inputs.filiera }}
