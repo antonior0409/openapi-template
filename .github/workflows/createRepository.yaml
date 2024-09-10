@@ -26,6 +26,7 @@ jobs:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
       - name: Create repository from template
+        shell: bash      
         run: |
           gh repo create "antonior0409/test-template5" --template https://github.com/antonior0409/openapi-template --public  --clone        
           echo "gh repo create $ORG/$REPO --template https://github.com/antonior0409/openapi-template --public --clone"
