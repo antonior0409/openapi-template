@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Create repository from template
-        run: gh repo create "$ORG/$REPO" --template https://github.com/antonior0409/openapi-template --clone
+        run: gh repo create "$ORG/$REPO" --template https://github.com/antonior0409/openapi-template --public --clone
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ORG: ${{ github.event.inputs.filiera }}
